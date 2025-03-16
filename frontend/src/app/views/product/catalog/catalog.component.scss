@@ -1,0 +1,137 @@
+@import "../../../../assets/styles/variables";
+
+.catalog {
+  padding-top: 100px;
+  padding-bottom: 110px;
+
+  .container {
+    .catalog-title {
+      font-family: "lora", sans-serif;
+      font-weight: 400;
+      font-size: 36px;
+      color: $green-text-color;
+      margin-bottom: 33px;
+      margin-left: 317px;
+    }
+
+    .catalog-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-left: 317px;
+
+      .catalog-applied-filters {
+        display: flex;
+        flex-wrap: wrap;
+
+        .catalog-applied-filter {
+          border: 1px solid #E7F1E8;
+          border-radius: 50px;
+          font-size: 16px;
+          color: $gray-text-color;
+          padding: 8px 14px;
+          display: flex;
+          align-items: center;
+          margin-right: 20px;
+          margin-bottom: 20px;
+
+          a {
+            text-decoration: none;
+            cursor: pointer;
+            display: flex;
+            margin-left: 8px;
+          }
+        }
+      }
+
+      .catalog-sorting {
+        display: flex;
+        align-items: center;
+
+        span {
+          margin-right: 8px;
+        }
+      }
+    }
+
+    .catalog-layout {
+      margin-top: 10px;
+      display: flex;
+
+      .catalog-filters {
+        width: 257px;
+        min-width: 257px;
+        margin-right: 58px;
+
+        .catalog-filter {
+          border-radius: 5px;
+          margin-bottom: 12px;
+          font-size: 16px;
+          color: $gray-text-color;
+
+          .catalog-filter-head {
+            background-color: #B6D5B9;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 23px;
+            cursor: pointer;
+
+            svg {
+              margin-top: 2px;
+            }
+          }
+
+          &.open .catalog-filter-head {
+            border-radius: 5px 5px 0 0;
+          }
+
+          .catalog-filter-body {
+            display: none;
+            border: 1px solid #B6D5B9;
+            border-radius: 0 0 5px 5px;
+            padding: 12px 16px;
+
+            .catalog-filter-checkbox {
+              display: flex;
+              align-items: baseline;
+              margin-bottom: 19px;
+              line-height: 130%;
+
+              &:last-child {
+                margin-bottom: 0;
+              }
+
+              input {
+                margin-right: 10px;
+              }
+            }
+
+            .catalog-filter-from-to {
+              display: flex;
+              align-items: center;
+              justify-content: space-between;
+            }
+          }
+
+          &.open .catalog-filter-body {
+            display: block;
+          }
+        }
+      }
+
+      .catalog-products {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 26px 30px;
+      }
+    }
+  }
+}
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none; /* Кнопки спрятаны */
+}
+
