@@ -46,9 +46,11 @@
 
       .catalog-sorting {
         width: 163px;
+        min-width: 163px;
         box-sizing: border-box;
         position: relative;
         font-size: 16px;
+        cursor: pointer;
 
         .catalog-sorting-head {
           display: flex;
@@ -88,6 +90,7 @@
 
         &.open {
           width: 257px;
+          min-width: 257px;
           .catalog-sorting-head {
             color: #000000;
             border-radius: 5px 5px 0 0 ;
