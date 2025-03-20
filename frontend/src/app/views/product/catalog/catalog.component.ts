@@ -7,6 +7,7 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {ActiveParamsUtil} from "../../../shared/utils/active-params.util";
 import {ActiveParamsType} from "../../../../types/active-params.type";
 import {AppliedFilterType} from "../../../../types/applied-filter.type";
+import {debounceTime} from "rxjs";
 
 @Component({
   selector: 'app-catalog',
@@ -36,7 +37,11 @@ export class CatalogComponent implements OnInit {
       .subscribe(data => {
         this.categoriesWithTypes = data;
 
-        this.activatedRoute.queryParams.subscribe((params) => {
+        this.activatedRoute.queryParams
+          .pipe(
+            debounceTime(500),
+          )
+          .subscribe((params) => {
           this.activeParams = ActiveParamsUtil.processParams(params);
 
           this.appliedFilters = [];
@@ -75,16 +80,15 @@ export class CatalogComponent implements OnInit {
               urlParam: 'diameterTo',
             });
           }
+          this.productService.getProducts(this.activeParams)
+            .subscribe(data => {
+              this.pages = [];
+              for (let i = 1; i <= data.pages; i++) {
+                this.pages.push(i);
+              }
+              this.products = data.items;
+            });
         });
-      });
-
-    this.productService.getProducts()
-      .subscribe(data => {
-        this.pages = [];
-        for (let i = 1; i <= data.pages; i++) {
-          this.pages.push(i);
-        }
-        this.products = data.items;
       });
   }
 
