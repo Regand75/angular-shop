@@ -5,9 +5,9 @@
     </div>
     <div class="catalog-head">
       <div class="catalog-applied-filters">
-        <div class="catalog-applied-filter">
-          <span>Суккуленты</span>
-          <a>
+        <div class="catalog-applied-filter" *ngFor="let appliedFilter of appliedFilters">
+          <span>{{ appliedFilter.name }}</span>
+          <a (click)="removeAppliedFilter(appliedFilter)">
             <svg width="16" height="17" viewBox="0 0 16 17" fill="none" xmlns="http://www.w3.org/2000/svg">
               <g clip-path="url(#clip0_18401_954)">
                 <line x1="1.93562" y1="3.1499" x2="13.9564" y2="15.1707" stroke="#A8ABA7" stroke-linecap="round"/>
