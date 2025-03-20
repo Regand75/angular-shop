@@ -26,6 +26,7 @@ export class CatalogComponent implements OnInit {
     {name: 'По возрастанию цены', value: 'price-asc'},
     {name: 'По убыванию цены', value: 'price-desc'},
   ];
+  pages: number[] = [];
 
   constructor(private productService: ProductService, private categoryService: CategoryService, private activatedRoute: ActivatedRoute, private router: Router) {
   }
@@ -79,6 +80,10 @@ export class CatalogComponent implements OnInit {
 
     this.productService.getProducts()
       .subscribe(data => {
+        this.pages = [];
+        for (let i = 1; i <= data.pages; i++) {
+          this.pages.push(i);
+        }
         this.products = data.items;
       });
   }
@@ -89,6 +94,7 @@ export class CatalogComponent implements OnInit {
     } else {
       this.activeParams.types = this.activeParams.types.filter(item => item !== appliedFilter.urlParam);
     }
+    this.activeParams.page = 1;
     this.router.navigate(['/catalog'], {
       queryParams: this.activeParams,
     });
@@ -104,5 +110,30 @@ export class CatalogComponent implements OnInit {
     this.router.navigate(['/catalog'], {
       queryParams: this.activeParams,
     });
+  }
+
+  openPage(page: number): void {
+    this.activeParams.page = page;
+    this.router.navigate(['/catalog'], {
+      queryParams: this.activeParams,
+    });
+  }
+
+  openPrevPage(): void {
+    if (this.activeParams.page && this.activeParams.page > 1) {
+      this.activeParams.page--;
+      this.router.navigate(['/catalog'], {
+        queryParams: this.activeParams,
+      });
+    }
+  }
+
+  openNextPage(): void {
+    if (this.activeParams.page && this.activeParams.page < this.pages.length) {
+      this.activeParams.page++;
+      this.router.navigate(['/catalog'], {
+        queryParams: this.activeParams,
+      });
+    }
   }
 }
