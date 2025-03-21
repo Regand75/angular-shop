@@ -1,6 +1,5 @@
 import {Component, OnInit} from '@angular/core';
 import {ProductService} from "../../shared/services/product.service";
-import {Router} from "@angular/router";
 import {ProductType} from "../../../types/product.type";
 import {OwlOptions} from "ngx-owl-carousel-o";
 
@@ -100,7 +99,7 @@ export class MainComponent implements OnInit {
     },
   ]
 
-  constructor(private productService: ProductService, private router: Router) {
+  constructor(private productService: ProductService) {
   }
 
   ngOnInit(): void {
