@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {OwlOptions} from "ngx-owl-carousel-o";
 import {ProductService} from "../../../shared/services/product.service";
 import {ProductType} from "../../../../types/product.type";
@@ -15,6 +15,7 @@ export class DetailComponent implements OnInit {
   recommendedProducts: ProductType[] = [];
   product!: ProductType;
   serverStaticPath = environment.serverStaticPath;
+  count: number = 1;
 
   customOptions: OwlOptions = {
     loop: true,
@@ -42,7 +43,8 @@ export class DetailComponent implements OnInit {
     nav: false
   }
 
-  constructor(private productService: ProductService, private activatedRoute: ActivatedRoute) { }
+  constructor(private productService: ProductService, private activatedRoute: ActivatedRoute) {
+  }
 
   ngOnInit(): void {
     this.activatedRoute.params.subscribe(params => {
@@ -56,6 +58,14 @@ export class DetailComponent implements OnInit {
       .subscribe((data: ProductType[]) => {
         this.recommendedProducts = data;
       });
+  }
+
+  updateCount(value: number): void {
+    this.count = value;
+  }
+
+  addToCart(): void {
+    alert('Добавлено в корзину: ' + this.count);
   }
 
 }
