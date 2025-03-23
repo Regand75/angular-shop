@@ -45,11 +45,12 @@ html, body {
   border: 0;
   font-family: "Montserrat", sans-serif;
   font-weight: 400;
-  font-size: 14px;
+  font-size: 16px;
   color: #FFFFFF;
 
   &.button-transparent {
     background-color: transparent;
+    font-size: 18px;
     border: 1px solid #6CAC72;
     color: $green-text-color;
   }
@@ -68,6 +69,28 @@ html, body {
     background-color: gray;
     cursor: not-allowed;
   }
+
+  &.button-in-cart span {
+    &:first-child {
+      display: block;
+    }
+
+    &:last-child {
+      display: none;
+    }
+  }
+
+  &:hover {
+    &.button-in-cart span {
+      &:first-child {
+        display: none;
+      }
+
+      &:last-child {
+        display: block;
+      }
+    }
+  }
 }
 
 a.button {
@@ -78,6 +101,7 @@ a.button {
 .mat-menu-item {
   font-family: "Montserrat", sans-serif;
   font-weight: 400;
+
   a {
     text-decoration: none;
     color: $gray-text-color;

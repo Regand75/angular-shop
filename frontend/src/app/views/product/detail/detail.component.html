@@ -30,7 +30,7 @@
                 Освещение
               </div>
               <div class="detail-info-item-description">
-                {{product.lightning}}
+                {{ product.lightning }}
               </div>
             </div>
           </div>
@@ -58,7 +58,7 @@
                 Влажность
               </div>
               <div class="detail-info-item-description">
-               {{product.humidity}}
+                {{ product.humidity }}
               </div>
             </div>
           </div>
@@ -82,7 +82,7 @@
                 Температура
               </div>
               <div class="detail-info-item-description">
-                {{product.temperature}}
+                {{ product.temperature }}
               </div>
             </div>
           </div>
@@ -113,7 +113,12 @@
             </svg>
             <span>В избранное</span>
           </button>
-          <button class="button" (click)="addToCart()">В корзину</button>
+          <button class="button" *ngIf="!product.countInCart" (click)="addToCart()">В корзину</button>
+          <button class="button button-transparent button-in-cart" *ngIf="product.countInCart"
+                  (click)="removeFromCart()">
+            <span>В корзине</span>
+            <span>Удалить</span>
+          </button>
         </div>
       </div>
     </div>
