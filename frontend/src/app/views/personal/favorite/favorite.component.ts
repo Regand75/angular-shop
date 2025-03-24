@@ -39,5 +39,4 @@ export class FavoriteComponent implements OnInit {
         this.products =  this.products.filter(item => item.id !== id);
       })
   }
-
 }
