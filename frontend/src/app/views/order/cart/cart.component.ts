@@ -46,7 +46,8 @@ export class CartComponent implements OnInit {
     nav: false
   }
 
-  constructor(private productService: ProductService, private cartService: CartService) { }
+  constructor(private productService: ProductService,
+              private cartService: CartService) { }
 
   ngOnInit(): void {
     this.productService.getBestProducts()

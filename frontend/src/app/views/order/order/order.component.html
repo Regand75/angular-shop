@@ -4,15 +4,19 @@
       Оформление вашего заказа
     </div>
     <div class="order-info">
-      <div class="order-form">
+      <div class="order-form" [formGroup]="orderFrom">
 
         <div class="order-form-block">
           <div class="order-form-label">
             Выберите способ доставки
           </div>
           <div class="order-form-types">
-            <div class="order-form-type-item active">Курьером</div>
-            <div class="order-form-type-item">Самовывоз</div>
+            <div class="order-form-type-item" [class.active]="deliveryType === deliveryTypes.delivery"
+                 (click)="changeDeliveryType(deliveryTypes.delivery)">Курьером
+            </div>
+            <div class="order-form-type-item" [class.active]="deliveryType === deliveryTypes.self"
+                 (click)="changeDeliveryType(deliveryTypes.self)">Самовывоз
+            </div>
           </div>
         </div>
 
@@ -21,11 +25,26 @@
             Заполните личные данные
           </div>
           <div class="order-form-inputs personal-data-inputs">
-            <input type="text" placeholder="Фамилия">
-            <input type="text" placeholder="Имя">
-            <input type="text" placeholder="Отчество">
-            <input type="text" placeholder="Телефон">
-            <input type="text" placeholder="E-mail">
+            <input type="text" class="input" placeholder="Фамилия"
+                   [ngStyle]="{'border-color': orderFrom.get('lastName')?.invalid
+                   && (orderFrom.get('lastName')?.dirty || orderFrom.get('lastName')?.touched) ? 'red' : ''}"
+                   formControlName="lastName">
+            <input type="text" class="input" placeholder="Имя"
+                   [ngStyle]="{'border-color': orderFrom.get('firstName')?.invalid
+                   && (orderFrom.get('firstName')?.dirty || orderFrom.get('firstName')?.touched) ? 'red' : ''}"
+                   formControlName="firstName">
+            <input type="text" class="input" placeholder="Отчество"
+                   [ngStyle]="{'border-color': orderFrom.get('fatherName')?.invalid
+                   && (orderFrom.get('fatherName')?.dirty || orderFrom.get('fatherName')?.touched) ? 'red' : ''}"
+                   formControlName="fatherName">
+            <input type="text" class="input" placeholder="Телефон"
+                   [ngStyle]="{'border-color': orderFrom.get('phone')?.invalid
+                   && (orderFrom.get('phone')?.dirty || orderFrom.get('phone')?.touched) ? 'red' : ''}"
+                   formControlName="phone">
+            <input type="text" class="input" placeholder="E-mail"
+                   [ngStyle]="{'border-color': orderFrom.get('email')?.invalid
+                   && (orderFrom.get('email')?.dirty || orderFrom.get('email')?.touched) ? 'red' : ''}"
+                   formControlName="email">
           </div>
         </div>
 
@@ -34,10 +53,22 @@
             Заполните адрес доставки
           </div>
           <div class="order-form-inputs address-inputs">
-            <input type="text" placeholder="Улица">
-            <input type="text" placeholder="№ дома">
-            <input type="text" placeholder="Подъезд">
-            <input type="text" placeholder="№ квартиры">
+            <input type="text" class="input street" placeholder="Улица"
+                    [ngStyle]="{'border-color': orderFrom.get('street')?.invalid
+                   && (orderFrom.get('street')?.dirty || orderFrom.get('street')?.touched) ? 'red' : ''}"
+                   formControlName="street">
+            <input type="text" class="input house" placeholder="№ дома"
+                    [ngStyle]="{'border-color': orderFrom.get('house')?.invalid
+                   && (orderFrom.get('house')?.dirty || orderFrom.get('house')?.touched) ? 'red' : ''}"
+                   formControlName="house">
+            <input type="text" class="input entrance" placeholder="Подъезд"
+                    [ngStyle]="{'border-color': orderFrom.get('entrance')?.invalid
+                   && (orderFrom.get('entrance')?.dirty || orderFrom.get('entrance')?.touched) ? 'red' : ''}"
+                   formControlName="entrance">
+            <input type="text" class="input apartment" placeholder="№ квартиры"
+                    [ngStyle]="{'border-color': orderFrom.get('apartment')?.invalid
+                   && (orderFrom.get('apartment')?.dirty || orderFrom.get('apartment')?.touched) ? 'red' : ''}"
+                   formControlName="apartment">
           </div>
         </div>
 
@@ -47,15 +78,15 @@
           </div>
           <div class="order-form-radio">
             <div class="order-form-radio-block">
-              <input type="radio" id="card">
+              <input type="radio" id="card" value="{{paymentTypes.cardOnline}}" formControlName="paymentType">
               <label for="card">Оплата банковской картой в интернет-магазине</label>
             </div>
             <div class="order-form-radio-block">
-              <input type="radio" id="cashless">
+              <input type="radio" id="cashless" value="{{paymentTypes.cardToCourier}}" formControlName="paymentType">
               <label for="cashless">Безналичный расчет при получении</label>
             </div>
             <div class="order-form-radio-block">
-              <input type="radio" id="cash">
+              <input type="radio" id="cash" value="{{paymentTypes.cashToCourier}}" formControlName="paymentType">
               <label for="cash">Наличный расчет при получении</label>
             </div>
           </div>
@@ -66,7 +97,11 @@
             Комментарий к заказу (необязательно)
           </div>
           <div class="order-form-inputs">
-            <textarea cols="30" rows="5" class="input" placeholder="Оставьте свой комментарий..."></textarea>
+            <textarea cols="30" rows="5" class="input"
+                      [ngStyle]="{'border-color': orderFrom.get('comment')?.invalid
+                   && (orderFrom.get('comment')?.dirty || orderFrom.get('comment')?.touched) ? 'red' : ''}"
+                      formControlName="comment"
+                      placeholder="Оставьте свой комментарий..."></textarea>
           </div>
         </div>
       </div>
@@ -76,11 +111,11 @@
           <div class="order-details-info-title">Ваш заказ</div>
           <div class="order-details-info-item">
             <div class="order-details-info-item-text">Товаров:</div>
-            <div class="order-details-info-item-data">4</div>
+            <div class="order-details-info-item-data">{{ totalCount }}</div>
           </div>
           <div class="order-details-info-item">
             <div class="order-details-info-item-text">Общая стоимость:</div>
-            <div class="order-details-info-item-data">147 BYN</div>
+            <div class="order-details-info-item-data">{{ totalAmount }} BYN</div>
           </div>
           <div class="order-details-info-item">
             <div class="order-details-info-item-text">Стоимость доставки:</div>
@@ -88,10 +123,10 @@
           </div>
           <div class="order-details-info-item">
             <div class="order-details-info-item-text">Итоговая стоимость:</div>
-            <div class="order-details-info-item-data">157 BYN</div>
+            <div class="order-details-info-item-data">{{ totalAmount + 10 }} BYN</div>
           </div>
         </div>
-        <button class="button" routerLink="/order">Подтвердить заказ</button>
+        <button class="button" (click)="createOrder()" routerLink="/order">Подтвердить заказ</button>
       </div>
 
     </div>
