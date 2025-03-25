@@ -48,25 +48,25 @@
           </div>
         </div>
 
-        <div class="order-form-block">
+        <div class="order-form-block" *ngIf="deliveryType !== deliveryTypes.self">
           <div class="order-form-label">
             Заполните адрес доставки
           </div>
           <div class="order-form-inputs address-inputs">
             <input type="text" class="input street" placeholder="Улица"
-                    [ngStyle]="{'border-color': orderFrom.get('street')?.invalid
+                   [ngStyle]="{'border-color': orderFrom.get('street')?.invalid
                    && (orderFrom.get('street')?.dirty || orderFrom.get('street')?.touched) ? 'red' : ''}"
                    formControlName="street">
             <input type="text" class="input house" placeholder="№ дома"
-                    [ngStyle]="{'border-color': orderFrom.get('house')?.invalid
+                   [ngStyle]="{'border-color': orderFrom.get('house')?.invalid
                    && (orderFrom.get('house')?.dirty || orderFrom.get('house')?.touched) ? 'red' : ''}"
                    formControlName="house">
             <input type="text" class="input entrance" placeholder="Подъезд"
-                    [ngStyle]="{'border-color': orderFrom.get('entrance')?.invalid
+                   [ngStyle]="{'border-color': orderFrom.get('entrance')?.invalid
                    && (orderFrom.get('entrance')?.dirty || orderFrom.get('entrance')?.touched) ? 'red' : ''}"
                    formControlName="entrance">
             <input type="text" class="input apartment" placeholder="№ квартиры"
-                    [ngStyle]="{'border-color': orderFrom.get('apartment')?.invalid
+                   [ngStyle]="{'border-color': orderFrom.get('apartment')?.invalid
                    && (orderFrom.get('apartment')?.dirty || orderFrom.get('apartment')?.touched) ? 'red' : ''}"
                    formControlName="apartment">
           </div>
@@ -132,3 +132,20 @@
     </div>
   </div>
 </div>
+
+<ng-template #popup>
+  <div class="order-popup">
+    <div class="order-popup-close" (click)="closePopup()">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <line x1="1.93562" y1="2.6499" x2="13.9564" y2="14.6707" stroke="#A8ABA7" stroke-linecap="round"/>
+        <line x1="13.9238" y1="2.62971" x2="1.90301" y2="14.6505" stroke="#A8ABA7" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <div class="order-popup-title">Благодарим за заказ!</div>
+    <div class="order-popup-content">
+      <div>Ваш заказ оформлен.</div>
+      <div>Вся информация о заказе была выслана вам на почту.</div>
+      <div>Курьер свяжется с вами за два часа до доставки товара.</div>
+    </div>
+  </div>
+</ng-template>
