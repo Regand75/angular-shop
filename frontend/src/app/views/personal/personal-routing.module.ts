@@ -6,7 +6,7 @@ import {OrdersComponent} from "./orders/orders.component";
 
 const routes: Routes = [
   {path: 'favorite', component: FavoriteComponent},
-  {path: 'info', component: InfoComponent},
+  {path: 'profile', component: InfoComponent},
   {path: 'orders', component: OrdersComponent},
 ];
 
