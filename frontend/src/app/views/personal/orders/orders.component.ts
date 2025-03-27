@@ -1,4 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
+import {OrderService} from "../../../shared/services/order.service";
+import {Router} from "@angular/router";
+import {OrderType} from "../../../../types/order.type";
+import {DefaultResponseType} from "../../../../types/default-response.type";
+import {OrderStatusUtil} from "../../../shared/utils/order-status.util";
 
 @Component({
   selector: 'app-orders',
@@ -7,9 +12,25 @@ import { Component, OnInit } from '@angular/core';
 })
 export class OrdersComponent implements OnInit {
 
-  constructor() { }
+  orders: OrderType[] = [];
+
+  constructor(private orderService: OrderService,
+              private router: Router) {
+  }
 
   ngOnInit(): void {
+    this.orderService.getOrders()
+      .subscribe((data: OrderType[] | DefaultResponseType) => {
+        if ((data as DefaultResponseType).error !== undefined) {
+          throw new Error((data as DefaultResponseType).massage);
+        }
+        this.orders = (data as OrderType[]).map(item => {
+          const status = OrderStatusUtil.getStatusAndColor(item.status);
+          item.statusRus = status.name;
+          item.color = status.color;
+          return item;
+        });
+      });
   }
 
 }
