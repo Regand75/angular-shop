@@ -1,6 +1,5 @@
 import {Component, OnInit} from '@angular/core';
 import {OrderService} from "../../../shared/services/order.service";
-import {Router} from "@angular/router";
 import {OrderType} from "../../../../types/order.type";
 import {DefaultResponseType} from "../../../../types/default-response.type";
 import {OrderStatusUtil} from "../../../shared/utils/order-status.util";
@@ -14,8 +13,7 @@ export class OrdersComponent implements OnInit {
 
   orders: OrderType[] = [];
 
-  constructor(private orderService: OrderService,
-              private router: Router) {
+  constructor(private orderService: OrderService) {
   }
 
   ngOnInit(): void {

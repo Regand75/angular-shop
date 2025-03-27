@@ -102,7 +102,14 @@
           </nav>
         </div>
         <div class="header-bottom-search">
-          <input type="text" placeholder="Начните искать">
+          <input type="text" placeholder="Начните искать" [ngModel]="searchValue" (ngModelChange)="changeSearchValue($event)">
+
+          <div class="search-products" *ngIf="products && products.length > 0">
+            <div class="search-product" *ngFor="let product of products">
+              <div class="search-product-image" style="background-image: url({{serverStaticPath + product.image}})" ></div>
+              <div class="search-product-name">{{product.name}}</div>
+            </div>
+          </div>
         </div>
       </div>
     </div>

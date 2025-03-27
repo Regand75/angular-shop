@@ -5,6 +5,9 @@ import {Router} from "@angular/router";
 import {CategoryWithTypeType} from "../../../../types/category-with-type.type";
 import {CartService} from "../../services/cart.service";
 import {DefaultResponseType} from "../../../../types/default-response.type";
+import {ProductService} from "../../services/product.service";
+import {ProductType} from "../../../../types/product.type";
+import {environment} from "../../../../environments/environment";
 
 @Component({
   selector: 'app-header',
@@ -15,11 +18,15 @@ export class HeaderComponent implements OnInit {
 
   isLogged: boolean = false;
   count: number = 1;
+  searchValue: string = '';
+  products: ProductType[] = [];
+  serverStaticPath = environment.serverStaticPath;
   @Input() categories: CategoryWithTypeType[] = [];
 
   constructor(private authService: AuthService,
               private _snackBar: MatSnackBar,
               private cartService: CartService,
+              private productService: ProductService,
               private router: Router) {
     this.isLogged = this.authService.getIsLoggedIn();
   }
@@ -60,4 +67,13 @@ export class HeaderComponent implements OnInit {
     this.router.navigate(['/']);
   }
 
+  changeSearchValue(newValue: string) {
+    this.searchValue = newValue;
+    if(this.searchValue && this.searchValue.length > 2) {
+      this.productService.searchProducts(this.searchValue)
+        .subscribe((data: ProductType[]) => {
+          this.products = data;
+        });
+    }
+  }
 }
