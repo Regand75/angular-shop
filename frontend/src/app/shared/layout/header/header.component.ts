@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, HostListener, Input, OnInit} from '@angular/core';
 import {AuthService} from "../../../core/auth/auth.service";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {Router} from "@angular/router";
@@ -8,6 +8,8 @@ import {DefaultResponseType} from "../../../../types/default-response.type";
 import {ProductService} from "../../services/product.service";
 import {ProductType} from "../../../../types/product.type";
 import {environment} from "../../../../environments/environment";
+import {FormControl} from "@angular/forms";
+import {debounceTime} from "rxjs";
 
 @Component({
   selector: 'app-header',
@@ -16,12 +18,21 @@ import {environment} from "../../../../environments/environment";
 })
 export class HeaderComponent implements OnInit {
 
+  searchField = new FormControl();
+  showedSearch: boolean = false;
   isLogged: boolean = false;
   count: number = 1;
-  searchValue: string = '';
+  // searchValue: string = '';
   products: ProductType[] = [];
   serverStaticPath = environment.serverStaticPath;
   @Input() categories: CategoryWithTypeType[] = [];
+
+  @HostListener('document:click', ['$event'])
+  click(event: Event): void {
+    if (this.showedSearch && (event.target as HTMLElement).className.indexOf('search-product') === -1) {
+      this.showedSearch = false;
+    }
+  }
 
   constructor(private authService: AuthService,
               private _snackBar: MatSnackBar,
@@ -32,6 +43,22 @@ export class HeaderComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.searchField.valueChanges
+      .pipe(
+        debounceTime(500),
+      )
+      .subscribe(value => {
+        if (value && value.length > 2) {
+          this.productService.searchProducts(value)
+            .subscribe((data: ProductType[]) => {
+              this.products = data;
+              this.showedSearch = true;
+            });
+        } else {
+          this.products = [];
+        }
+      });
+
     this.authService.isLogged$.subscribe((isLoggedIn: boolean) => {
       this.isLogged = isLoggedIn;
     });
@@ -67,13 +94,29 @@ export class HeaderComponent implements OnInit {
     this.router.navigate(['/']);
   }
 
-  changeSearchValue(newValue: string) {
-    this.searchValue = newValue;
-    if(this.searchValue && this.searchValue.length > 2) {
-      this.productService.searchProducts(this.searchValue)
-        .subscribe((data: ProductType[]) => {
-          this.products = data;
-        });
-    }
+  // changeSearchValue(newValue: string): void {
+  //   this.searchValue = newValue;
+  //   if(this.searchValue && this.searchValue.length > 2) {
+  //     this.productService.searchProducts(this.searchValue)
+  //       .subscribe((data: ProductType[]) => {
+  //         this.products = data;
+  //         this.showedSearch = true;
+  //       });
+  //   } else {
+  //     this.products = [];
+  //   }
+  // }
+
+  selectProduct(url: string): void {
+    this.router.navigate(['/product/' + url]);
+    this.searchField.setValue('');
+    // this.searchValue = '';
+    this.products = [];
   }
+
+  // changeShowedSearch(value: boolean): void {
+  //   setTimeout(() => {
+  //     this.showedSearch = value;
+  //   },200);
+  // }
 }
