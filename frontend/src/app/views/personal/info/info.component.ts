@@ -39,6 +39,30 @@ export class InfoComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.userService.getUserInfo()
+      .subscribe((data: UserInfoType | DefaultResponseType) => {
+        if ((data as DefaultResponseType).error !== undefined) {
+          throw new Error((data as DefaultResponseType).massage);
+        }
+        const userInfo = data as UserInfoType;
+        const paramsToUpdate = {
+          firstName: userInfo.firstName ? userInfo.firstName : '',
+          lastName: userInfo.lastName ? userInfo.lastName : '',
+          phone: userInfo.phone ? userInfo.phone : '',
+          fatherName: userInfo.fatherName ? userInfo.fatherName : '',
+          paymentType: userInfo.paymentType ? userInfo.paymentType : PaymentType.cashToCourier,
+          email: userInfo.email ? userInfo.email : '',
+          street: userInfo.street ? userInfo.street : '',
+          house: userInfo.house ? userInfo.house : '',
+          entrance: userInfo.entrance ? userInfo.entrance : '',
+          apartment: userInfo.apartment ? userInfo.apartment : '',
+        }
+
+        this.userInfoForm.setValue(paramsToUpdate);
+        if (userInfo.deliveryType) {
+          this.deliveryType = userInfo.deliveryType;
+        }
+      });
   }
 
   changeDeliveryType(deliveryType: DeliveryType): void {
@@ -87,6 +111,7 @@ export class InfoComponent implements OnInit {
               throw new Error(data.massage);
             }
             this._snackBar.open('Данные успешно сохранены');
+            this.userInfoForm.markAsPristine();
           },
           error: (errorResponse: HttpErrorResponse) => {
             if (errorResponse.error && errorResponse.error.message) {

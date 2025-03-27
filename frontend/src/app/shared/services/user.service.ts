@@ -16,4 +16,8 @@ export class UserService {
   updateUserInfo(params: UserInfoType): Observable<DefaultResponseType> {
     return this.http.post<DefaultResponseType>(environment.api + 'user', params);
   }
+
+  getUserInfo(): Observable<UserInfoType | DefaultResponseType> {
+    return this.http.get<UserInfoType | DefaultResponseType>(environment.api + 'user');
+  }
 }
