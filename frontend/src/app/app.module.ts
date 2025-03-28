@@ -15,6 +15,7 @@ import {SharedModule} from "./shared/shared.module";
 import {CarouselModule} from "ngx-owl-carousel-o";
 import {AuthInterceptor} from "./core/auth/auth.interceptor";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {CdkTableModule} from "@angular/cdk/table";
 
 @NgModule({
   declarations: [
@@ -24,18 +25,19 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
     FooterComponent,
     MainComponent,
   ],
-  imports: [
-    BrowserModule,
-    HttpClientModule,
-    MatSnackBarModule,
-    FormsModule,
-    MatMenuModule,
-    ReactiveFormsModule,
-    SharedModule,
-    CarouselModule,
-    AppRoutingModule,
-    BrowserAnimationsModule
-  ],
+    imports: [
+        BrowserModule,
+        HttpClientModule,
+        MatSnackBarModule,
+        FormsModule,
+        MatMenuModule,
+        ReactiveFormsModule,
+        SharedModule,
+        CarouselModule,
+        AppRoutingModule,
+        BrowserAnimationsModule,
+        CdkTableModule
+    ],
   providers: [
     {provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: {duration: 2500}},
     {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},
