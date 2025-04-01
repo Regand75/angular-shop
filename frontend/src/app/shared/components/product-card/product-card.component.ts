@@ -23,6 +23,7 @@ export class ProductCardComponent implements OnInit {
 
   serverStaticPath = environment.serverStaticPath;
   count: number = 1;
+  isLogged: boolean = false;
   // isInCart: boolean = false;
 
   constructor(private cartService: CartService,
@@ -30,12 +31,16 @@ export class ProductCardComponent implements OnInit {
               private favoriteService: FavoriteService,
               private authService: AuthService,
               private router: Router) {
+    this.isLogged = this.authService.getIsLoggedIn();
   }
 
   ngOnInit(): void {
     if (this.countInCart && this.countInCart > 1) {
       this.count = this.countInCart;
     }
+    this.authService.isLogged$.subscribe((isLoggedIn: boolean) => {
+      this.isLogged = isLoggedIn;
+    });
   }
 
   addToCart(): void {
