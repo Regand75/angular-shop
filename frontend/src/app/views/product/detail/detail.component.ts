@@ -21,6 +21,7 @@ export class DetailComponent implements OnInit {
 
   recommendedProducts: ProductType[] = [];
   product!: ProductType;
+  isLogged: boolean = false;
   serverStaticPath = environment.serverStaticPath;
   count: number = 1;
 
@@ -56,6 +57,7 @@ export class DetailComponent implements OnInit {
               private authService: AuthService,
               private _snackBar: MatSnackBar,
               private cartService: CartService) {
+    this.isLogged = this.authService.getIsLoggedIn();
   }
 
   ngOnInit(): void {
@@ -94,6 +96,10 @@ export class DetailComponent implements OnInit {
               });
           }
         });
+    });
+
+    this.authService.isLogged$.subscribe((isLoggedIn: boolean) => {
+      this.isLogged = isLoggedIn;
     });
 
     this.productService.getBestProducts()
