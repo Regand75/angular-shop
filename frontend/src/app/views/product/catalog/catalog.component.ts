@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, HostListener, OnInit} from '@angular/core';
 import {ProductService} from "../../../shared/services/product.service";
 import {ProductType} from "../../../../types/product.type";
 import {CategoryService} from "../../../shared/services/category.service";
@@ -20,6 +20,7 @@ import {AuthService} from "../../../core/auth/auth.service";
   templateUrl: './catalog.component.html',
   styleUrls: ['./catalog.component.scss']
 })
+
 export class CatalogComponent implements OnInit {
 
   products: ProductType[] = [];
@@ -36,6 +37,13 @@ export class CatalogComponent implements OnInit {
   pages: number[] = [];
   cart: CartType | null = null;
   favoriteProducts: FavoriteType[] | null = null;
+
+  @HostListener('document:click', ['$event'])
+  click(event: Event): void {
+    if (this.sortingOpen && (event.target as HTMLElement).className.indexOf('catalog-sorting') === -1) {
+      this.sortingOpen = false;
+    }
+  }
 
   constructor(private productService: ProductService,
               private categoryService: CategoryService,

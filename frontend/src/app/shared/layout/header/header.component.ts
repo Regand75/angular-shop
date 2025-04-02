@@ -21,7 +21,7 @@ export class HeaderComponent implements OnInit {
   searchField = new FormControl();
   showedSearch: boolean = false;
   isLogged: boolean = false;
-  count: number = 1;
+  count: number = 0;
   // searchValue: string = '';
   products: ProductType[] = [];
   serverStaticPath = environment.serverStaticPath;
@@ -61,17 +61,29 @@ export class HeaderComponent implements OnInit {
 
     this.authService.isLogged$.subscribe((isLoggedIn: boolean) => {
       this.isLogged = isLoggedIn;
+      this.updateCartCount(); // Обновление корзины при входе/выходе
     });
+    // this.cartService.getCartCount()
+    //   .subscribe((data: { count: number } | DefaultResponseType) => {
+    //     if ((data as DefaultResponseType).error !== undefined) {
+    //       throw new Error((data as DefaultResponseType).massage);
+    //     }
+    //     this.count = (data as { count: number }).count;
+    //   });
+    this.cartService.count$
+      .subscribe(count => {
+        this.count = count;
+      });
+    this.updateCartCount(); // Вызываем при инициализации
+  }
+
+  updateCartCount(): void {
     this.cartService.getCartCount()
       .subscribe((data: { count: number } | DefaultResponseType) => {
         if ((data as DefaultResponseType).error !== undefined) {
           throw new Error((data as DefaultResponseType).massage);
         }
         this.count = (data as { count: number }).count;
-      });
-    this.cartService.count$
-      .subscribe(count => {
-        this.count = count;
       });
   }
 
