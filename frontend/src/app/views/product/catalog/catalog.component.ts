@@ -47,6 +47,15 @@ export class CatalogComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.activatedRoute.queryParams.subscribe(params => {
+      if (!params['page']) {
+        this.router.navigate([], {
+          relativeTo: this.activatedRoute,
+          queryParams: {...params, page: 1}, // Добавляем page=1, сохраняя остальные параметры
+          queryParamsHandling: 'merge' // Объединяем новые параметры с текущими
+        });
+      }
+    });
     this.cartService.getCart()
       .subscribe((data: CartType | DefaultResponseType) => {
         if ((data as DefaultResponseType).error !== undefined) {
